@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter.ttk import *
-import mysql.connector
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#import mysql.connector
 import database
 import sqlite3
 from tkinter import messagebox
@@ -43,8 +45,41 @@ root.iconbitmap("logo.ico")
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
 
-#function for the check paid listOfUsers
+def show_dashboard():
+    # Create a new window for the dashboard
+    dashboard_window = Toplevel(root)
+    dashboard_window.title("Debt Tracking Dashboard")
+    dashboard_window.geometry("800x600")
 
+    # Get statistics data from the database
+    total_borrowed = "2,500,000"
+    # Display statistics using labels
+    label_title = Label(dashboard_window, text="Debt Tracking Dashboard", font=("Arial", 16, "bold"))
+    label_title.pack(pady=10)
+
+    label_total_borrowed = Label(dashboard_window, text=f"Total Borrowed Amount: shs{total_borrowed}", font=("Arial", 12))
+    label_total_borrowed.pack(pady=10)
+
+    # Visualize data using a bar chart embedded in the dashboard window
+    visualize_data(dashboard_window)
+
+def visualize_data(parent_window):
+    # Create a simple bar chart for visualization
+    categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec']
+    values = [60000, 80000, 50000, 100000, 120000, 150000, 100000, 56000, 200000, 300000, 250000, 450000]
+
+    # Create a figure and axis
+    fig, ax = plt.subplots()
+    ax.bar(categories, values)
+    ax.set_xlabel('Month')
+    ax.set_ylabel('Money Borrowed(shs)')
+    ax.set_title('Payment Graph')
+
+    # Embed the chart in the Tkinter window
+    canvas = FigureCanvasTkAgg(fig, master=parent_window)
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.pack(pady=20)
+    
 def showUserDetails():
     db = sqlite3.connect("iplannerdb.db")
     myCursor = db.cursor()
@@ -226,7 +261,7 @@ def delete():
 #Menus
 MainMenu = Menu(root)
 DashboardMenu = Menu(MainMenu, tearoff=0)
-DashboardMenu.add_command(label = "View Dash Board")
+DashboardMenu.add_command(label = "View Dash Board", command=show_dashboard)
 MainMenu.add_cascade(label = "Dash Board", menu=DashboardMenu)
 
 PlansMenu = Menu(MainMenu, tearoff=0)
