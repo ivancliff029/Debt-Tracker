@@ -1,6 +1,6 @@
 Debt Tracker
 Overview
-Debt Tracker is a simple application designed to help you keep track of people you've lent money to and record their repayments. It provides a straightforward way to manage your borrow list and track payments.
+Debt Tracker is a simple application designed in Python with a user interface designed using Tkinter to help you keep track of people you've lent money to and record their repayments. It provides a straightforward way to manage your borrowing list and track payments.
 
 Features
 Borrower List:
